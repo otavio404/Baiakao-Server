@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster name="Daily Dark Torturer" nameDescription="a daily dark torturer" race="blood" experience="500" speed="250" manacost="0">
+	<health now="9925" max="9925"/>
+	<look type="234" corpse="0"/>
+	<targetchange interval="5000" chance="8"/>
+	<strategy attack="100" defense="0"/>
+	<flags>
+		<flag summonable="0"/>
+		<flag attackable="1"/>
+		<flag hostile="1"/>
+		<flag illusionable="0"/>
+		<flag convinceable="0"/>
+		<flag pushable="0"/>
+		<flag canpushitems="1"/>
+		<flag canpushcreatures="1"/>
+		<flag targetdistance="1"/>
+		<flag staticattack="90"/>
+		<flag runonhealth="0"/>
+	</flags>
+	<attacks>
+		<attack name="melee" interval="2000" skill="90" attack="120"/>
+		<attack name="physical" interval="3000" chance="17" range="7" min="-400" max="-650">
+			<attribute key="shootEffect" value="throwingknife"/>
+		</attack>
+		<attack name="physical" interval="3000" chance="17" length="4" spread="3" min="-200" max="-450">
+			<attribute key="areaEffect" value="purplenote"/>
+		</attack>
+	</attacks>
+	<defenses armor="45" defense="45">
+		<defense name="healing" interval="1000" chance="50" min="350" max="700">
+			<attribute key="areaEffect" value="blueshimmer"/>
+		</defense>
+	</defenses>
+	<elements>
+		<element earthPercent="90"/>
+		<element energyPercent="30"/>
+		<element deathPercent="10"/>
+		<element icePercent="-10"/>
+		<element holyPercent="-10"/>
+	</elements>
+	<immunities>
+		<immunity fire="1"/>
+		<immunity invisible="1"/>
+	</immunities>
+</monster>

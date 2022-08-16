@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mod name="Change gender command" version="1.0" author="The Forgotten Server" contact="otland.net" enabled="yes">
+<config name="changender_config"><![CDATA[
+config = {
+costPrice = 1000000
+}
+]]></config>
+<talkaction words="!changesex" event="buffer"><![CDATA[
+domodlib('changender_config')
+if(getPlayerSex(cid) >= 2) then
+doPlayerSendTextMessage(cid, MESSAGE_STATUS_CONSOLE_BLUE, "You cannot change your gender.")
+return
+end
+
+if doPlayerRemoveMoney(cid, config.costPrice) then
+doPlayerSetSex(cid, getPlayerSex(cid) == PLAYERSEX_FEMALE and PLAYERSEX_MALE or PLAYERSEX_FEMALE)
+doPlayerSendTextMessage(cid, MESSAGE_INFO_DESCR, "Voce pagou " .. config.costPrice .. " em sua Redesignação Sexual.")
+doSendMagicEffect(getCreaturePosition(cid), CONST_ME_MAGIC_RED)
+else
+doPlayerSendTextMessage(cid, MESSAGE_INFO_DESCR, "Voce precisa de "..config.costPrice.." golds coins para trocar de sexo.")
+return
+end
+]]></talkaction>
+</mod>

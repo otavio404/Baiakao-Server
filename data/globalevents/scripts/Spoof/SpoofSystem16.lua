@@ -1,0 +1,17 @@
+function onTime(interval, lastExecution)
+			db.query("UPDATE `players` SET `online` = 1 WHERE `online` = 0 AND `id` = 14006;")
+			db.query("UPDATE `players` SET `online` = 1 WHERE `online` = 0 AND `id` = 14007;")
+			db.query("UPDATE `players` SET `online` = 1 WHERE `online` = 0 AND `id` = 14008;")
+			db.query("UPDATE `players` SET `online` = 1 WHERE `online` = 0 AND `id` = 14009;")
+			db.query("UPDATE `players` SET `online` = 1 WHERE `online` = 0 AND `id` = 14010;")
+			db.query("UPDATE `players` SET `online` = 1 WHERE `online` = 0 AND `id` = 14011;")
+			db.query("UPDATE `players` SET `online` = 1 WHERE `online` = 0 AND `id` = 14012;")
+			db.query("UPDATE `players` SET `online` = 1 WHERE `online` = 0 AND `id` = 14013;")
+			db.query("UPDATE `players` SET `online` = 1 WHERE `online` = 0 AND `id` = 14014;")
+			db.query("UPDATE `players` SET `online` = 1 WHERE `online` = 0 AND `id` = 14015;")
+			db.query("UPDATE `players` SET `online` = 1 WHERE `online` = 0 AND `id` = 14016;")
+			db.query("UPDATE `players` SET `online` = 1 WHERE `online` = 0 AND `id` = 14017;")
+			db.query("UPDATE `players` SET `online` = 1 WHERE `online` = 0 AND `id` = 14018;")
+			db.query("UPDATE `players` SET `online` = 1 WHERE `online` = 0 AND `id` = 14019;")
+	return true
+end

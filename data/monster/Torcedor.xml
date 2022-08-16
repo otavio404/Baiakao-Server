@@ -1,0 +1,40 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<monster name="Torcedor" namedescription="a torcedor" race="blood" experience="0" speed="0" manacost="250">
+<health now="20" max="20">
+<look type="255" head="114" body="132" legs="132" feet="132" corpse="6080">
+<targetchange interval="2000" chance="20">
+<strategy attack="100" defense="0">
+
+<flags>
+  <flag summonable="1">
+  <flag attackable="1">
+  <flag hostile="1">
+  <flag illusionable="1">
+  <flag convinceable="1">
+  <flag pushable="1">
+  <flag canpushitems="0">
+  <flag canpushcreatures="0">
+  <flag targetdistance="1">
+  <flag staticattack="90">
+  <flag runonhealth="20">
+</flag></flag></flag></flag></flag></flag></flag></flag></flag></flag></flag></flags>
+
+<attacks>
+  <attack name="melee" interval="2000" skill="0" attack="0">
+</attack></attacks>
+
+<defenses armor="1" defense="2">
+
+<elements>
+  <element firepercent="-10">
+</element></elements>
+
+<voices interval="5000" chance="10">
+</voices>
+
+<loot>
+  <item id="3976" countmax="10" chance="50000"><!-- worm -->
+  <item id="2666" countmax="3" chance="80000"><!-- meat -->
+  <item id="2671" countmax="2" chance="70000"><!-- ham -->
+</item></item></item></loot>
+</defenses></strategy></targetchange></look></health></monster>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<channels>
+	<!-- README:
+		0 - dynamic, reserved for guilds
+		1 - always acts as Party channel, only "name" tag available
+		3 - always acts as Rule Violations channel
+		9 - acts as Help channel- clientsided message
+		65535 - DO NOT CHANGE THE ID- only "name", "enabled", "active" and "logged" tags available
+	 -->
+	<channel id="1" name="Party"/>
+	<channel id="2" name="Staff" access="1"/>
+	<channel id="3" name="Reportar Bugs" logged="yes"/>
+    <channel id="6" name="Trade" level="8" muted="120" conditionId="3" conditionMessage="Aguarde 2 minuto para enviar mensagem novamente.">
+	</channel>
+	<channel id="8" name="Mortes" active="no"/>
+	<channel id="9" name="Help" level="8" muted="30" conditionId="6" conditionMessage="Aguarde 30 segundos para enviar uma mensagem novamente." logged="yes"/>
+	<!-- <channel id="10" name="My Custom Channel"/> -->
+	<channel id="65535" name="Channel Private Cast"/>
+	<channel id="11" name="Quests"/>
+	<channel id="12" name="World-Chat"/>
+	<channel id="13" name="Avisos" active="no"/>
+	<channel id="14" name="Loot" active="no"/>
+</channels>

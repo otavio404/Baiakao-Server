@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster name="Addon Doll" nameDescription="a addon doll" race="blood" experience="30000" speed="200" manacost="250">
+	<health now="2500000" max="2500000"/>
+    <look typeex="9693" corpse="9693"/>
+	<targetchange interval="60000" chance="0"/>
+	<strategy attack="100" defense="0"/>
+	<flags>
+		<flag attackable="1"/>
+		<flag hostile="1"/>
+		<flag pushable="1"/>
+		<flag canpushitems="0"/>
+		<flag staticattack="80"/>
+		<flag lightlevel="0"/>
+		<flag lightcolor="0"/>
+		<flag targetdistance="1"/>
+		<flag runonhealth="10"/>
+	</flags>
+	<attacks>
+		<attack name="melee" interval="2000" min="-1" max="-15"/>
+	</attacks>
+	<defenses armor="2" defense="4"/>
+	<immunities>
+		<immunity physical="0"/>
+		<immunity energy="0"/>
+		<immunity fire="0"/>
+		<immunity poison="0"/>
+		<immunity lifedrain="0"/>
+		<immunity paralyze="0"/>
+		<immunity outfit="0"/>
+		<immunity drunk="0"/>
+		<immunity invisible="0"/>
+	</immunities>
+	<voices interval="2000" chance="5">
+		<voice sentence="Meeeeep!"/>
+	</voices>
+	<summons maxSummons="2">
+		<summon name="Rat" interval="2000" chance="20" max="2"/>
+	</summons>
+</monster>

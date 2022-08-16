@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<creaturescripts>
+	<event type="login" name="vipdays" event="script" value="vipdays.lua"/> 
+	<event type="login" name="caveExclusivaLogin" event="script" value="cave_creaturescript.lua"/>
+	<event type="death" name="caveExclusivaDeath" event="script" value="cave_creaturescript.lua"/>
+	<!--<event type="kill" name="ExpCast" event="script" value="castexp.lua"/>-->
+	<event type="kill" name="monsterBoostKill" event="script" value="monsterBoost.lua"/>
+	<event type="login" name="monsterBoostLogin" event="script" value="monsterBoost.lua"/>
+	<event type="channeljoin" name="lootChannelJoin" event="script" value="lootChannel.lua"/>
+    <event type="channelleave" name="lootChannelLeave" event="script" value="lootChannel.lua"/>
+    <event type="channeljoin" name="OpenChannelDialog" script="chatmsg.lua"/>
+	<event type="login" name="guildexp" script="guildexp.lua"/> 
+		
+	<!-- Reward Chest -->
+	<event type="death" name="RewardChestDeath" event="script" value="rewardchest_boss.lua"/>	
+	<event type="login" name="RewardChestLogin" event="script" value="rewardchest_pontos.lua"/>
+	<event type="statschange" name="RewardChestStats" event="script" value="rewardchest_pontos.lua"/>
+	<event type="statschange" name="RewardChestMonster" event="script" value="rewardchest_boss.lua"/>
+
+	<!-- Bossings Heal -->
+	<event type="statschange" name="azazel" event="script" value="bossings heal/azazel.lua"/>
+	<event type="statschange" name="the triangle" event="script" value="bossings heal/the triangle.lua"/>	
+
+	<!-- Offline Training -->
+	<event type="login" name="offtrain_PlayerLogin" event="script" value="offtrain_login.lua"/>
+	<event type="logout" name="offtrain_PlayerLogout" event="script" value="offtrain_logout.lua"/>	
+
+	<!-- Anti Entrosa -->
+	<event type="death" name="AntiEntrosa" event="script" value="antiEntrosa.lua"/>
+	<event type="login" name="Anti Entrosa Login" event="script" value="antiEntrosa.lua"/>
+	<event type="moveitem" name="AntiEntrosa MoveItem" event="script" value="antiEntrosa.lua"/>	
+	<event type="death" name="Anti Entrosa Death" event="script" value="antiEntrosa_logout.lua"/>	
+	<event type="logout" name="Anti Entrosa Logout" event="script" value="antiEntrosa_logout.lua"/>
+
+	<event type="think" name="NpcShout" event="script" value="anunciante.lua"/>
+	<event type="login" name="LabiaLogin" event="script" value="labia.lua"/>
+	<!--<event type="moveitem" name="MoveItem" event="script" value="moveitem.lua"/>-->
+	<event type="login" name="MsgNpcShop" event="script" value="npc_shop.lua"/>
+	<event type="login" name="EasyArenaLogin" event="script" value="arena_easy.lua"/>
+	<event type="combat" name="EasyArenaCombat" event="script" value="arena_easy.lua"/>
+	<event type="PrepareDeath" name="EasyArenaDeath" event="script" value="arena_easy.lua"/>			
+	<event type="login" name="antimb" event="script" value="antimb.lua"/>
+	<event type="push" name="pushpz" event="script" value="pushpz.lua"/>
+	<event type="login" name="OpenChannelDialog" script="chat.lua"/>
+	<event type="login" name="ExpVip" script="vipexp.lua"/>	
+	<event type="login" name="AdvEffect" event="script" value="vipeffect.lua"/>		
+	<event type="login" name="Fim autoloot" event="script" value="fim autoloot.lua"/>
+    <event type="tradeaccept" name="Points_Trade" event="script" value="Points_Trade.lua"/>	
+	<event type="throw" name="HouseProtection" event="script" value="house_protection.lua"/>
+    <event type="traderequest" name="Points_Trade_Request" event="script" value="Points_Trade.lua"/>
+	<event type="login" name="HouseProtectionRegister" event="script" value="house_protection.lua"/>
+	<event type="kill" name="Auto Loot" event="script" value="Auto_Loot.lua"/>
+	
+    <!-- Defend the Towers (ChaitoSoft - Desenvolvedores Open Tibia) 
+	<event type="death" name="dttDeath" event="script" value="events/DTT.lua"/> 
+	<event type="PrepareDeath" name="dttPrepare" event="script" value="events/DTT.lua"/>
+	<event type="statschange" name="dttStats" event="script" value="events/DTT.lua"/>
+	<event type="outfit" name="dttOutfit" event="script" value="events/DTT.lua"/>
+	<event type="login" name="dttLogin" event="script" value="events/DTT.lua"/>
+	<event type="statschange" name="zombieevent" event="script" value="events/zombie.lua"/>
+	<event type="kill" name="dttKill" event="script" value="events/DTT.lua"/>	
+	<event type="combat" name="dttCombat" event="script" value="events/DTT.lua"/>-->
+	<event type="throw" name="bombermanPush" event="script" value="events/killuaBomberman.lua"/>
+	<event type="login" name="bombermanLogin" event="script" value="events/killuaBomberman.lua"/>
+
+    <!--Real Team Battle-->
+	<event type="login" name="realTeamBattleLogin" event="script" value="events/realTeamBattle.lua"/>
+	<event type="combat" name="realTeamBattleCombat" event="script" value="events/realTeamBattle.lua"/>
+	<event type="target" name="realTeamBattleTarget" event="script" value="events/realTeamBattle.lua"/>
+	<event type="prepareDeath" name="realTeamBattleDeath" event="script" value="events/realTeamBattle.lua"/>
+    <!-- Elemental quest -->
+        <event type="login" name="otlist" event="script" value="otlist.lua"/>
+	<event type="death" name="teleportmonster23" script="tpmonster23.lua"/> <!-- Massive Energy Elemental -->	
+	<event type="death" name="teleportmonster24" script="tpmonster24.lua"/> <!-- Massive Earth Elemental -->	
+	<event type="death" name="teleportmonster25" script="tpmonster25.lua"/> <!-- Massive Fire Elemental -->	
+	<event type="death" name="teleportmonster26" script="tpmonster26.lua"/> <!-- Massive Water Elemental -->
+	<!-- Servidor Desenvolvido By Ciroc -->
+	<!-- Importants -->
+	<event type="login" name="MutePlayer" event="script" value="mute_check.lua"/>	
+    <event type="kill" name="TopFrags" event="script" value="topfrags.lua" />
+    <event type="login" name="RTopFrags" event="script" value="topfrags.lua" />
+    <event type="look" name="showKD" event="script" value="KillsandDeath.lua"/>
+    <event type="kill" name="Kills" event="script" value="kill.lua"/>
+    <event type="think" name="Thinks" event="script" value="think.lua"/>
+	<event type="login" name="PlayerLogin" event="script" value="login.lua"/>
+	<event type="login" name="FirstItems" event="script" value="firstitems.lua"/>
+	<event type="logout" name="Logout" event="script" value="logout.lua"/>
+	<event type="advance" name="FullHpMana" event="script" value="fullhpmana.lua"/>
+	<event type="advance" name="recompensa" event="script" value="recompensa_level.lua"/>
+	<event type="death" name="huntdeath" event="script" value="death.lua"/>
+	<event type="channeljoin" name="GuildEvents" event="script" value="guild.lua"/>
+	<event type="mailreceive" name="Mail" event="script" value="mail.lua"/>
+	<event type="reportbug" name="SaveReportBug" event="script" value="reportbug.lua"/>
+	<event type="attack" name="attackguild" event="script" value="attackguild.lua"/>
+	<event type="death" name="incendio" event="script" value="incendioMonster.lua"/>
+    	<event type="statschange" name="CombatDodge" event="script" value="dodgecombat.lua"/>
+	<event type="statschange" name="critical" event="script" value="critical.lua"/>
+	<event type="kill" name="taskbk" event="script" value="darkcity.lua"/>
+	<!-- <event type="attack" name="staminafiller" script="staminafiller.lua"/> -->
+	
+	<!-- Events -->
+	<event type="statschange" name="FireStorm" event="script" value="events/FireStorm.lua"/>
+	<event type="PrepareDeath" name="DesertDeath" event="script" value="events/DesertWAR.lua"/>
+	<event type="combat" name="DesertCombat" event="script" value="events/DesertWAR.lua"/>	
+	<event type="PrepareDeath" name="Ctf" event="script" value="events/CTF.lua"/>
+	<event type="PrepareDeath" name="BattleDeath" event="script" value="events/Battlefield.lua"/>
+	<event type="combat" name="BattleCombat" event="script" value="events/Battlefield.lua"/>
+	
+	<!--Quests-->	
+	<event type="kill" name="TeleportQuest" event="script" value="tpquest.lua"/>
+	<event type="kill" name="TeleportArena" event="script" value="tparena1.lua"/>	
+</creaturescripts>

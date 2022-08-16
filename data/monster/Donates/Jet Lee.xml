@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<monster name="Jet Lee" nameDescription="Jet Lee" experience="11850" manacost="0" speed="100" race="3">
+  <health now="4000" max="4000"/>
+  <strategy attack="720" defense="450"/>
+  <targetchange speed="420" chance="75"/>
+  <flags canpushitems="0" summonable="0" hostile="1" attackable="1" illusionable="0" convinceable="0" pushable="1" staticattack="0" targetdistance="0" runonhealth="0"/>
+  <look type="156" head="0" body="0" legs="0" feet="0" addons="2" corpse="3058"/>
+  <attacks>
+    <attack name="melee" chance="500" interval="800" skill="135" attack="210"/>
+    <attack name="Berserk" chance="40" interval="2000" min="-100" max="-250"/>
+    <attack name="Sudden Death" chance="10" interval="1500" min="-170" max="-200" range="5"/>
+  </attacks>
+  <defenses defense="45" armor="10">
+    <defense name="Ultimate Healing" chance="15" speed="2000" min="1000" max="1000"/>
+    <defense name="Strong Haste" chance="70" speed="1000"/>
+  </defenses>
+  <immunities>
+    <immunity name="poison"/>
+    <immunity name="lifedrain"/>
+    <immunity name="paralyze"/>
+    <immunity name="outfit"/>
+    <immunity name="drunk"/>
+    <immunity name="invisible"/>
+  </immunities>
+  <voices speed="8000" chance="60">
+    <voice sentence="I am a legend, and you?"/>
+    <voice sentence="In this night only one of us will survive!"/>
+  </voices>
+  <summons maxSummons="2">
+    <summon name="Assassin" speed="1000" chance="7"/>
+  </summons>
+  <loot>
+    <item id="2414" chance="5000"/>
+    <item id="2514" chance="4000"/>
+    <item id="2472" chance="1000"/>
+    <item id="2470" chance="2000"/>
+    <item id="2160" countmax="1" chance1="100000" chancemax="0"/>
+  </loot>
+  
+</monster>

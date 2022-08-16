@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster name="Infernatil Maximus Attack" nameDescription="a infernatil maximus attack" race="fire" experience="6000" speed="975" manacost="10000">
+  <health now="12000000" max="12000000"/>
+  <look type="35" corpse="5995"/>
+  <targetchange interval="5000" chance="8"/>
+  <strategy attack="90" defense="10"/>
+  <flags>
+    <flag summonable="0"/>
+    <flag attackable="1"/>
+    <flag hostile="1"/>
+    <flag illusionable="0"/>
+    <flag convinceable="0"/>
+    <flag pushable="0"/>
+    <flag canpushitems="1"/>
+    <flag canpushcreatures="1"/>
+    <flag targetdistance="1"/>
+    <flag staticattack="90"/>
+    <flag runonhealth="0"/>
+  </flags>
+  <attacks>
+    <attack name="melee" interval="1000" skill="100" attack="460"/>
+    <attack name="manadrain" interval="2000" chance="1000" range="7" min="700" max="-1820"/>
+    <attack name="fire" interval="1000" chance="3000" range="7" radius="7" target="1" min="-2050" max="-2550">
+		<attribute key="shootEffect" value="fire"/>
+		<attribute key="areaEffect" value="firearea"/>
+	</attack>
+    <attack name="fire" interval="1000" chance="1000" range="7" radius="1" target="1">
+		<attribute key="shootEffect" value="fire"/>
+	</attack>
+    <attack name="lifedrain" interval="1000" chance="1000" length="8" spread="0" min="-2300" max="-2867">
+		<attribute key="areaEffect" value="purpleenergy"/>
+	</attack>
+	<attack name="speed" interval="2000" chance="15" target="1" speedchange="-750" duration="30000">
+		<attribute key="shootEffect" value="suddendeath"/>
+	</attack>
+	<attack name="energy" interval="2500" chance="1000" range="1" target="1" min="-1210" max="-2300">
+		<attribute key="areaEffect" value="purpleenergy"/>
+	</attack>
+  </attacks>
+  <defenses armor="55" defense="55">
+    <defense name="healing" interval="2000" chance="15" min="130" max="240">
+      <attribute key="areaEffect" value="blueshimmer"/>
+    </defense>
+	<defense name="speed" interval="1000" chance="8" speedchange="290" duration="5000">
+      <attribute key="areaEffect" value="redshimmer"/>
+    </defense>
+  </defenses>
+	<elements>
+		<element physicalPercent="3"/>
+		<element energyPercent="5"/>
+		<element earthPercent="2"/>
+		<element icePercent="-15"/>
+		<element holyPercent="-5"/>
+		<element deathPercent="2"/>
+	</elements>
+  <immunities>
+    <immunity fire="1"/>
+    <immunity drown="1"/>
+    <immunity paralyze="1"/>
+    <immunity invisible="1"/>
+  </immunities>
+  <summons maxSummons="1">
+    <summon name="fire elemental" interval="1000" chance="12"/>
+  </summons>
+  <voices interval="5000" chance="10">
+    <voice sentence="MUHAHAHAHA!" yell="1"/>
+    <voice sentence="I SMELL FEEEEEAAAR!" yell="1"/>
+    <voice sentence="CHAMEK ATH UTHUL ARAK!" yell="1"/>
+    <voice sentence="Your resistance is futile!"/>
+    <voice sentence="Your soul will be mine!" yell="0"/>
+  </voices>
+  <loot>
+		<item id="2148" chance="100000" countmax="100" /> -- gold coin
+		<item id="2152" chance="49000" countmax="5" /> -- platinum coin
+		<item id="1987" chance="100000" > -- bag
+		<item id="2498" chance="3333"/> --Royal Helmet
+		<item id="2492" chance="1400"/> --DSM
+			<inside>
+				<item id="6500" chance="1818" countmax="1" /> -- demonic essence
+				<item id="5944" chance="1538" countmax="1" /> -- soul orb
+				<item id="2547" chance="4000" countmax="15" /> -- power bolt
+				<item id="2466" chance="2888"/> --Golden armor
+			</inside>
+		</item>
+	</loot>
+</monster>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster name="Azazel" nameDescription="Azazel" race="venom" experience="15000" speed="200" manacost="0">
+<health now="1000000" max="1000000"/>
+
+<look type="12" head="95" body="78" legs="0" feet="94" corpse="6068"/>
+<targetchange interval="5000" chance="12"/>
+<strategy attack="150" defense="0"/>
+
+<flags>
+<flag summonable="0"/>
+<flag attackable="1"/>
+<flag hostile="1"/>
+<flag illusionable="0"/>
+<flag convinceable="0"/>
+<flag pushable="1"/>
+<flag canpushitems="1"/>
+<flag canpushcreatures="0"/>
+<flag targetdistance="1"/>
+<flag staticattack="90"/>
+<flag runonhealth="0"/>
+</flags>
+
+  <attacks>
+	<attack name="melee" interval="1000" skill="210" attack="300"/>
+	<attack name="poison" interval="2000" chance="50" range="1" radius="1" target="1" min="-1600" max="-2700">
+	<attribute key="areaEffect" value="poison"/>
+  </attack>
+	<attack name="fire" interval="2000" chance="70" range="7" radius="7" target="1" min="-1300" max="-1900">
+	<attribute key="shootEffect" value="fire"/>
+	<attribute key="areaEffect" value="firearea"/>
+  </attack>
+	<attack name="death" interval="2000" chance="40" radius="9" target="0" min="-1800" max="-2300">
+	<attribute key="areaEffect" value="mortarea"/>
+  </attack>
+	<attack name="manadrain" interval="2000" chance="10" radius="10" target="0" min="-1400" max="-1890">
+	<attribute key="areaEffect" value="energyarea"/>
+  </attack>
+	<attack name="lifedrain" interval="2000" chance="10" radius="14" target="0" min="-1000" max="-1150">
+	<attribute key="areaEffect" value="greenshimmer"/>
+  </attack>
+	<attack name="poisoncondition" interval="2000" chance="50" length="0" spread="0" min="-2400" max="-2900">
+	<attribute key="areaEffect" value="greenspark"/>
+  </attack>
+</attacks>
+
+<defenses armor="50" defense="80"/>
+
+<immunities>
+<immunity paralyze="1"/>
+<immunity invisible="1"/>
+</immunities>
+
+<script> 
+  <event name="RewardChestDeath"/>
+  <event name="RewardChestMonster"/>
+  <event name="azazel"/>
+</script>
+</monster>

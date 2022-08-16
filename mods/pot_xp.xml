@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<mod name="Boost Exp" version="1.0" author="Vodkart" contact="DISCORD: vodkart#6090" enabled="yes">
+<config name="exppotion"><![CDATA[
+exp_info = {rate = 0.2, storage = {354870,354871,354872}, minutes = 30} -- rate 0.2 = 20%
+function convertTime(a)
+  if(type(tonumber(a)) == "number" and a > 0) then
+    if (a <= 3599) then
+      local minute = math.floor(a/60)
+      local second = a - (60 * minute)
+      if(second == 0) then
+        return ((minute)..((minute > 1) and " minutos" or " minuto"))
+      else
+        return ((minute ~= 0) and ((minute>1) and minute.." minutos e " or minute.." minuto e ").. ((second>1) and second.." segundos" or second.." segundo") or ((second>1) and second.." segundos" or second.. " segundo"))
+      end
+    else
+      local hour = math.floor(a/3600)
+      local minute = math.floor((a - (hour * 3600))/60)
+      local second = (a - (3600 * hour) - (minute * 60))
+      if (minute == 0 and second > 0) then
+        return (hour..((hour > 1) and " horas e " or " hora e "))..(second..((second > 1) and " segundos" or " segundo"))
+      elseif (second == 0 and minute > 0) then
+        return (hour..((hour > 1) and " horas e " or " hora e "))..(minute..((minute > 1) and " minutos" or " minuto"))
+      elseif (second == 0 and minute == 0) then
+        return (hour..((hour > 1) and " horas" or " hora"))
+      end
+      return (hour..((hour > 1) and " horas, " or " hora, "))..(minute..((minute > 1) and " minutos e " or " minuto e "))..(second..((second > 1) and " segundos" or " segundo"))
+    end
+  end
+end
+]]></config>
+<event type="login" name="ExpPotionLogin" event="script"><![CDATA[
+domodlib('exppotion')
+function onLogin(cid)
+    if getPlayerStorageValue(cid, exp_info.storage[1]) - os.time() > 0 then 
+        registerCreatureEvent(cid, "ExpPotionThink")
+        local rates = getPlayerRates(cid)
+        doPlayerSendTextMessage(cid, MESSAGE_STATUS_CONSOLE_ORANGE, "Você ainda tem "..convertTime(getPlayerStorageValue(cid, exp_info.storage[1]) - os.time()).." de Boost Exp.")
+        doPlayerSetExperienceRate(cid, rates[SKILL__LEVEL]+exp_info.rate)
+		setPlayerStorageValue(cid, exp_info.storage[3], 1) -- registro
+    end 
+	return true
+end]]></event>
+<event type="think" name="ExpPotionThink" event="script"><![CDATA[
+domodlib('exppotion')
+function onThink(cid, interval)
+	if getPlayerStorageValue(cid, exp_info.storage[3]) > 0 and getPlayerStorageValue(cid, exp_info.storage[1]) - os.time() <= 0 then
+		doPlayerSendTextMessage(cid, MESSAGE_STATUS_CONSOLE_ORANGE, "Sua Boost Exp acabou!") 
+		-- doPlayerSetExperienceRate(cid, getPlayerStorageValue(cid, exp_info.storage[2]))
+		local rates = getPlayerRates(cid)
+		doPlayerSetExperienceRate(cid, rates[SKILL__LEVEL]-exp_info.rate)
+		setPlayerStorageValue(cid, exp_info.storage[3], 0) -- registro
+	end
+	return true
+end]]></event>
+<talkaction words="!exppotion" event="buffer"><![CDATA[
+domodlib('exppotion')
+return doPlayerSendTextMessage(cid, MESSAGE_STATUS_CONSOLE_ORANGE, getPlayerStorageValue(cid, exp_info.storage[1]) - os.time() <= 0 and "Você não possui Boost Exp ativa no momento." or "Você tem "..convertTime(getPlayerStorageValue(cid, exp_info.storage[1]) - os.time()).." de Boost Exp.")]]></talkaction>
+<action itemid="7443" event="script"><![CDATA[
+domodlib('exppotion')
+function onUse(cid, item, fromPosition, itemEx, toPosition)
+    if getPlayerStorageValue(cid, exp_info.storage[1]) - os.time() > 0 then
+		doPlayerSendTextMessage(cid, MESSAGE_STATUS_CONSOLE_ORANGE, "Você não pode usar outra Boost Exp pois ainda possui uma ativa. Ainda restam: "..convertTime(getPlayerStorageValue(cid, exp_info.storage[1]) - os.time())..".") return true
+	end
+	
+	local rates = getPlayerRates(cid)
+	-- setPlayerStorageValue(cid, exp_info.storage[2], rates[SKILL__LEVEL])
+	doPlayerSendTextMessage(cid, MESSAGE_STATUS_CONSOLE_ORANGE, "Você ativou Boost Exp por "..exp_info.minutes.." minutos! Durante este tempo, você receberá +20% exp de monstros. Para saber o tempo, digite: !exppotion") 
+	setPlayerStorageValue(cid, exp_info.storage[1], os.time()+exp_info.minutes*60)
+	setPlayerStorageValue(cid, exp_info.storage[3], 1) -- registro
+	doPlayerSetExperienceRate(cid, rates[SKILL__LEVEL]+exp_info.rate)
+	registerCreatureEvent(cid, "ExpPotionThink")
+	doRemoveItem(item.uid,1)
+	return true
+end]]></action>
+</mod>

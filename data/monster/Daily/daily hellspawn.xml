@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster name="Daily Hellspawn" nameDescription="a daily hellspawn" experience="500" speed="360" race="blood" manacost="0">
+	<health now="6075" max="6075"/>
+	<strategy attack="100" defense="0"/>
+	<targetchange speed="0" chance="8"/>
+	<look type="322" corpse="0"/>
+	<flags>
+		<flag summonable="0"/>
+		<flag attackable="1"/>
+		<flag hostile="1"/>
+		<flag illusionable="0"/>
+		<flag convinceable="0"/>
+		<flag pushable="0"/>
+		<flag canpushitems="1"/>
+		<flag canpushcreatures="1"/>
+		<flag targetdistance="1"/>
+		<flag staticattack="90"/>
+		<flag runonhealth="0"/>
+	</flags>
+	<attacks>
+		<attack name="melee" interval="2000" chance="100" skill="80" attack="110"/>
+	</attacks>
+	<defenses armor="44" defense="44">
+		<defense name="healing" interval="1000" chance="15" min="500" max="1000">
+			<attribute key="areaEffect" value="blueshimmer"/>
+		</defense>
+		<defense name="speed" interval="50000" chance="15" speedchange="150" duration="10000">
+			<attribute key="areaEffect" value="redshimmer"/>
+		</defense>
+	</defenses>
+	<elements>
+		<element physicalPercent="10"/>
+		<element energyPercent="10"/>
+		<element firePercent="40"/>
+		<element deathPercent="-5"/>
+		<element icePercent="-10"/>
+		<element holyPercent="10"/>
+		<element EarthPercent="80"/>
+	</elements>
+	<immunities>
+		<immunity paralyze="1"/>
+		<immunity invisible="1"/> 
+	</immunities> 
+</monster>

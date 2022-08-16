@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster name="Rookador" nameDescription="Rookador" race="UNDEAD" experience="750000" speed="1200" manacost="0">
+  <health now="3000000" max="3000000"/>
+  <look type="12" head="20" body="905" legs="709" feet="905" corpse="6068"/>
+  <targetchange interval="10000" chance="20"/>
+  <strategy attack="270" defense="235"/>
+  <flags>
+    <flag summonable="0"/>
+    <flag attackable="1"/>
+    <flag hostile="1"/>
+    <flag illusionable="0"/>
+    <flag convinceable="0"/>
+    <flag pushable="0"/>
+    <flag canpushitems="1"/>
+    <flag canpushcreatures="1"/>
+    <flag staticattack="98"/>
+    <flag targetdistance="1"/>
+    <flag runonhealth="3500"/>
+  </flags>
+  <attacks>
+    <attack name="melee" interval="1000" min="-1000" max="-2000"/>
+	<attack name="melee" interval="1000" chance="40" range="7" radius="6" target="0" min="-1000" max="-2000">
+	  <attribute key="areaEffect" value="blackspark"/>
+    </attack>
+    <attacks>
+      <attack name="Great Energy Beam" interval="1000" chance="20" min="-800" max="-1500"/>
+    </attacks>
+  </attacks>
+  <defenses armor="100" defense="500">
+    <defense name="healing" interval="2000" chance="35" min="400" max="1000">
+      <attribute key="areaEffect" value="blueshimmer"/>
+    </defense>
+    <defense name="speed" interval="4000" chance="80" speedchange="440" duration="6000">
+      <attribute key="areaEffect" value="redshimmer"/>
+    </defense>
+  </defenses>
+  <immunities>
+    <immunity physical="0"/>
+    <immunity energy="1"/>
+    <immunity fire="1"/>
+    <immunity poison="1"/>
+    <immunity lifedrain="1"/>
+    <immunity paralyze="1"/>
+    <immunity outfit="1"/>
+    <immunity drunk="1"/>
+    <immunity invisible="1"/>
+  </immunities>
+    <voices interval="1000" chance="10">
+      <voice sentence="Your soul will be mine!"/>
+      <voice sentence="MWA HA HA HA HA!"/>
+    </voices>
+    <loot>
+	<item id="2160" chance="100000" countmax="50"/>
+	<item id="2514" chance="18000"/>
+	<item id="5943" chance="7000"/>
+	<item id="2004" chance="100000">
+	  <inside>
+	  </inside>
+	</item>
+  </loot>
+</monster>

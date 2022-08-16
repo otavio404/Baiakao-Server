@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npc name="Flowers Seller" script="data/npc/scripts/flowers.lua" walkinterval="2000" floorchange="0">
+<health now="100" max="100"/>
+<look type="136" head="1" body="125" legs="95" feet="2" addons="2"/>
+<!-- <voices>
+<voice text="Embellish your home with flowers!" interval2="100" margin="1" yell="no"/>
+</voices> -->
+<parameters>
+<parameter key="module_shop" value="1" />
+		<parameter key="shop_buyable" value="brown mushroom,2789,100;chest,1740,100;god flowers,2100,100;honey flower,2103,100;flower bowl,2102,100;box,1741,100;boxe,1738,100;crate,1739,100;cherrie,2679,100" />
+        <parameter key="message_greet" value="Welcome, |PLAYERNAME|. What can I do for you?"/>
+        <parameter key="message_farewell" value="Good bye."/>
+		<parameter key="message_walkaway" value="Good bye." />
+		<parameter key="message_sendtrade" value="Of course, just browse through my wares." />
+</parameters>
+</npc>

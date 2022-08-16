@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<mod name="Jail System" version="1.0" author="Dwarfer" contact="tibiaking.com" enabled="yes">
+<config name="Jail_func"><![CDATA[
+JAIL_SYS = {
+
+    block_mana = true,
+
+    prision_area = {fromPos = {x = 549, y = 5311, z = 5}, toPos = {x = 571, y = 5340, z = 5}},
+    
+    max_security_skulls = {SKULL_RED, SKULL_BLACK},
+    
+    jails_enter_positions = {
+        ["NORMAL"] = {
+            [1] = {x = 560, y = 5327, z = 5},
+        },
+        ["MAX_SECURITY"] = { 
+            [1] = {x = 560, y = 5315, z = 5},
+        },
+    },
+    
+    storages = {jailtime = 76530}
+}
+
+function getAllPlayersInPrisionArea() 
+    local players, area = {}, JAIL_SYS.prision_area
+    for _, pid in ipairs(getPlayersOnline()) do
+        local f = {x = area.fromPos.x, y = area.fromPos.y, z = area.fromPos.z}
+        local t = {x = area.toPos.x, y = area.toPos.y, z = area.toPos.z}
+        local min = (area.fromPos.z > area.toPos.z and area.toPos.z or area.fromPos.z)
+        for index = 0, math.abs(area.toPos.z - area.fromPos.z) do
+            f.z = min + index
+            t.z = min + index
+            if isInRange(getPlayerPosition(pid), f, t) then
+                table.insert(players, pid)
+            end
+        end    
+    end
+    return players
+end
+
+function isInPrision(cid)
+    return isInArray(getAllPlayersInPrisionArea(), cid)
+end
+
+function doKickPlayerFromPrision(cid)
+    doSendMagicEffect(getPlayerPosition(cid), CONST_ME_POFF)
+    local destination = getTownTemplePosition(getPlayerTown(cid))
+    doTeleportThing(cid, destination)
+    doSendMagicEffect(destination, CONST_ME_TELEPORT)
+    doPlayerSendTextMessage(cid, MESSAGE_STATUS_CONSOLE_ORANGE, "Voce cumpriu sua pena na prisao.")
+    setPlayerStorageValue(cid, JAIL_SYS.storages.jailtime, -1)
+end
+
+function doPlayerNotFragInPrision(cid)
+    doPlayerSendTextMessage(cid, MESSAGE_STATUS_CONSOLE_BLUE, "Esta morte nao foi contabilizada.")
+    doPlayerSetSkullEnd(cid, 0, SKULL_WHITE)
+    doRemoveCondition(cid, CONDITION_INFIGHT)
+    if getCreatureSkullType(cid) == SKULL_WHITE then
+        doCreatureSetSkullType(cid, SKULL_NONE)
+    end
+    db.executeQuery("UPDATE `killers` SET `unjustified` = 0 WHERE `id` IN (SELECT `kill_id` FROM `player_killers` WHERE `player_id` = " .. getPlayerGUID(cid) .. ") ORDER BY `death_id` DESC LIMIT 1;")
+end
+]]></config>
+<event type="statschange" name="JailBlockMana" event="script"><![CDATA[
+domodlib('Jail_func')
+function onStatsChange(cid, attacker, type, combat, value)
+    if not isPlayer(cid) then return true end
+    if not JAIL_SYS.block_mana then return true end
+    if getPlayerStorageValue(cid, JAIL_SYS.storages.jailtime) > os.time() then
+        if type == STATSCHANGE_MANAGAIN then
+            if isInPrision(cid) then
+                return false
+            end
+        end
+    end
+    return true
+end]]></event>
+<event type="login" name="JailLogin" event="script"><![CDATA[
+domodlib('Jail_func')
+function onLogin(cid)
+    registerCreatureEvent(cid, "JailBlockMana")
+    registerCreatureEvent(cid, "JailNotFrag")
+    local jail_time = getPlayerStorageValue(cid, JAIL_SYS.storages.jailtime)
+    if jail_time == -1 then return true end
+    if isInPrision(cid) then
+        if jail_time > os.time() then
+            doPlayerSendTextMessage(cid, MESSAGE_STATUS_CONSOLE_ORANGE, "Voce ficara preso ate "..os.date("%d %B %Y %X", jail_time)..".")
+            addEvent(function()
+                if isPlayer(cid) then
+                    if isInPrision(cid) then
+                        doKickPlayerFromPrision(cid)
+                    end
+                end
+            end, (jail_time - os.time()) * 1000)
+        else
+            doKickPlayerFromPrision(cid)
+        end
+    end
+    return true
+end]]></event>
+<event type="kill" name="JailNotFrag" event="script"><![CDATA[
+domodlib('Jail_func')
+function onKill(cid, target, damage, flags)
+    if not isPlayer(cid) or not isPlayer(target) then return true end
+    if isInPrision(cid) then
+        if isInPrision(target) then
+            addEvent(doPlayerNotFragInPrision, 100, cid)
+        end
+    end
+    return true
+end]]></event>
+<talkaction words="!jail;/jail" access="4" event="script"><![CDATA[
+domodlib('Jail_func')
+function onSay(cid, words, param, channel)
+    local param = param:lower()
+    local t = string.explode(param, ",")
+    if not t[1] then
+        return doPlayerSendCancel(cid, "Comando invalido. Insira o nome do jogador.")
+    end
+    if not tonumber(t[2]) then
+        return doPlayerSendCancel(cid, "Comando invalido. Insira o tempo que o jogador ficara preso.")
+    end
+    if not tonumber(t[3]) then
+        return doPlayerSendCancel(cid, "Comando invalido. Insira quantos níveis o jogador perdera.")
+    end
+    local player = getPlayerByNameWildcard(t[1])
+    if not isPlayer(player) or (isPlayerGhost(player) and getPlayerGhostAccess(player) > getPlayerGhostAccess(cid)) then
+        return doPlayerSendCancel(cid, "Jogador nao encontrado.")
+    end
+    if getPlayerAccess(player) >= 3 then
+        return doPlayerSendCancel(cid, "Voce nao pode prender esse jogador.")
+    end
+    if isInPrision(player) then
+        return doPlayerSendCancel(cid, "O jogador ja está preso.")
+    end
+    local check = getPlayerStorageValue(player, JAIL_SYS.storages.jailtime)
+    if check > os.time() then
+        return doPlayerSendTextMessage(cid, MESSAGE_STATUS_CONSOLE_BLUE, "Voce deve esperar ate "..os.date("%d %B %Y %X", check).." para prender o jogador novamente.")
+    end
+    local jail_type = isInArray(JAIL_SYS.max_security_skulls, getCreatureSkullType(player)) and "MAX_SECURITY" or "NORMAL"
+    local jails = JAIL_SYS.jails_enter_positions[jail_type]
+    local jail_enter = jails[math.random(1, #jails)]
+    doSendMagicEffect(getPlayerPosition(player), CONST_ME_MAGIC_RED)
+    doTeleportThing(player, jail_enter)
+    doSendMagicEffect(jail_enter, CONST_ME_TELEPORT)
+    doSendAnimatedText(jail_enter, "JAIL!", TEXTCOLOR_RED)
+    doPlayerSendTextMessage(player, MESSAGE_STATUS_CONSOLE_ORANGE, "Voce fez algo ilegal e ficara preso por "..t[2].." minuto"..(tonumber(t[2]) > 1 and "s" or "")..".")
+    doPlayerSendTextMessage(cid, MESSAGE_INFO_DESCR, "Voce prendeu o jogador "..getCreatureName(player).." por "..t[2].." minuto"..(tonumber(t[2]) > 1 and "s" or "")..".")
+    doPlayerAddLevel(player, (tonumber(t[3]) < 0 and 0 or -tonumber(t[3])))
+    doCreatureAddMana(player, -getCreatureMana(player))
+    setPlayerStorageValue(player, JAIL_SYS.storages.jailtime, (tonumber(t[2])*60) + os.time())
+    addEvent(function()
+        if isPlayer(player) then
+            if isInPrision(player) then
+                doKickPlayerFromPrision(player)
+            end
+        end
+    end, (tonumber(t[2])*60*1000))
+    return true
+end]]></talkaction>
+<globalevent name="JailBlockMana" interval="10000" event="script"><![CDATA[
+domodlib('Jail_func')
+function onThink(interval)
+    if not JAIL_SYS.block_mana then return true end
+    local players = getAllPlayersInPrisionArea()
+    if #players > 0 then
+        for _, pid in pairs(players) do
+            local mana = getCreatureMana(pid)
+            if mana > 0 then
+                doCreatureAddMana(pid, -mana)
+            end
+        end
+    end
+    return true
+end]]></globalevent>
+</mod>

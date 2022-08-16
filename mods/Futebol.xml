@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mod name="Foot ball" version="1.0" author="Damadger" contact="otland.net" enabled="yes">
+<config name="tutorial_m"><![CDATA[
+ c = {
+ 
+    speed = 650,   -- base speed for all players.
+ 
+	players = 4,  -- ****Change to number of players per each team, but keep on mind by changing this you will add new positions for each team in : 1- in the team1pos varible | 2- in the destination verible
+ 
+	 pitchpos = {fromx = 803, fromy = 5213, tox = 829, toy = 5225, z = 6},    -- here you need to put the x and y from the farest north west sqm of the pitch, to the farest west east sqm in the pitch(including goal)
+ 
+     ballpos = {x = 817, y = 5220, z = 6}, -- default position of ball in middle of pitch
+ 
+     original = 360 , --match time ( it will be devided by 2 for each half)
+ 
+     team1pos = {
+                          --Position of #TEAM_1# players standing to pull the lever
+                              {x = 801, y = 5218, z = 6},
+                              {x = 801, y = 5217, z = 6},
+                              {x = 800, y = 5217, z = 6},
+                              {x = 800, y = 5218, z = 6},
+						 --- Position of #TEAM_2# players standing to pull the lever
+                              {x = 801, y = 5220, z = 6},
+                              {x = 801, y = 5221, z = 6},
+                              {x = 800, y = 5221, z = 6},
+                              {x = 800, y = 5220, z = 6}
+	                  },
+ 
+	 destination = {
+	                    --- team 1 pitch side
+                           {x = 809, y = 5215, z = 6},
+                           {x = 809, y = 5224, z = 6},
+                           {x = 814, y = 5224, z = 6},
+                           {x = 814, y = 5215, z = 6},
+						--- team 2 pitch side
+                          {x = 819, y = 5215, z = 6},
+                          {x = 819, y = 5224, z = 6},
+                          {x = 824, y = 5215, z = 6},
+                          {x = 824, y = 5224, z = 6}
+                      },
+ 
+     storage = 1919,
+ 
+	 BLUE_SCORE = 1223,
+ 
+	 RED_SCORE = 1224,
+ 
+      rewards = true,     -- by disabling this you will disable the score broadcast and the win add to site part
+	       rewards_id = {2494, 2472, 2514, 2160}  --Player are rewarded randomly
+	 }
+ 
+ 
+ 
+ 
+]]></config>
+ <lib name="football-lib"><![CDATA[
+ 
+function getSpeed(cid,level)
+   value = (220 +(2 *(level -1)))
+  return value
+end
+function addTotal(cid)
+	return db.executeQuery("UPDATE `players` SET `total` = `total` + " .. 1 .. " WHERE `id`= '" .. getPlayerGUID(cid) .. "' LIMIT 1;")
+end
+ function addGoal(cid)
+    return db.executeQuery("UPDATE `players` SET `goals` = `goals` + " .. 1 .. " WHERE `id`= '" .. getPlayerGUID(cid) .. "' LIMIT 1;")
+end
+function addWin(cid)
+   return db.executeQuery("UPDATE `players` SET `wins` = `wins` + " .. 1 .. " WHERE `id`= '" .. getPlayerGUID(cid) .. "' LIMIT 1;")
+end
+]]></lib>
+<action actionid="2275" event="script"> <![CDATA[
+		domodlib('tutorial_m')
+		domodlib('football-lib')
+local bmale = createConditionObject(CONDITION_OUTFIT)
+setConditionParam(bmale, CONDITION_PARAM_TICKS, -1)
+addOutfitCondition(bmale, {lookType = math.random(128,134), lookHead = 88, lookBody = 88, lookLegs = 88, lookFeet = 88, lookTypeEx = 0, lookAddons = 3})
+ 
+local bfemale = createConditionObject(CONDITION_OUTFIT)
+setConditionParam(bfemale, CONDITION_PARAM_TICKS, -1)
+addOutfitCondition(bfemale, {lookType = math.random(136,142), lookHead = 88, lookBody = 88, lookLegs = 88, lookFeet = 88, lookTypeEx = 0, lookAddons = 3})
+ 
+local rmale = createConditionObject(CONDITION_OUTFIT)
+setConditionParam(rmale, CONDITION_PARAM_TICKS, -1)
+addOutfitCondition(rmale, {lookType = math.random(128,134), lookHead = 94, lookBody = 94, lookLegs = 94, lookFeet = 94, lookTypeEx = 0, lookAddons = 3})
+ 
+local rfemale = createConditionObject(CONDITION_OUTFIT)
+setConditionParam(rfemale, CONDITION_PARAM_TICKS, -1)
+addOutfitCondition(rfemale, {lookType = math.random(136,142),lookHead = 94, lookBody = 94, lookLegs = 94, lookFeet = 94, lookTypeEx = 0, lookAddons = 3})
+ 
+ 
+ 
+function onUse(cid, item, fromPosition, itemEx, toPosition)
+local n = 1
+    if getGlobalStorageValue(1222) > 0 then
+       doPlayerSendCancel(cid,"There is a on going match right now, please come again later.")
+    return true
+    end
+ local players = {}
+	for _, position in ipairs(c.team1pos) do
+		local pid = getTopCreature(position).uid
+		if(pid == 0 or not isPlayer(pid)) then
+			doPlayerSendCancel(cid, "You need ".. c.players * 2 .." players to start the match.")
+			return true
+		end
+ 
+		table.insert(players, pid)
+ 
+	end
+ 
+	for i, pid in ipairs(players) do
+	    setPlayerStorageValue(pid,c.storage,n)
+	     n = n+1
+		doTeleportThing(pid, c.destination[getPlayerStorageValue(pid,c.storage)], false)
+		doSendMagicEffect(c.destination[i], CONST_ME_ENERGYAREA)
+ 
+	end
+	for i, pid in ipairs(players) do
+	     addTotal(pid)
+	    if getPlayerStorageValue(pid,c.storage) > 0 and getPlayerStorageValue(pid,c.storage) <= c.players then
+		      doAddCondition(pid, ( getPlayerSex(cid) == 1 and bmale or bfemale) )
+	    elseif getPlayerStorageValue(pid,c.storage) > c.players  then
+			   doAddCondition(pid, ( getPlayerSex(cid) == 1 and rmale or rfemale) )
+	     end
+ 
+	end
+ 
+  	for i = c.pitchpos.fromy, c.pitchpos.toy do
+		for j = c.pitchpos.fromx, c.pitchpos.tox do
+			local pos = {x = j, y = i, z = c.pitchpos.z}
+			local ball = getTileItemById(pos,2109).uid
+			if ball > 0 then
+				doRemoveItem(ball)
+			end
+		end
+	end
+	if getTileItemById(c.ballpos,2109).uid < 1 then
+		doCreateItem(2109,1,c.ballpos)
+	end
+    setGlobalStorageValue(1222,c.original)
+ 
+	return item.itemid == 1945 and doTransformItem(item.uid,1946) or doTransformItem(item.uid,1945)
+end
+]]> </action>
+<movevent type="AddItem" tileitem="1" fromaid="7070" toaid="7072" event="script"><![CDATA[
+		domodlib('tutorial_m')
+        domodlib('football-lib')
+ 
+		function onAddItem(moveitem, tileitem, position, cid)
+ 
+if(moveitem.itemid ~= 2109) then
+	 if getItemDescriptionsById(moveitem.itemid).type == ITEM_TYPE_MAGICFIELD then
+	      doRemoveItem(moveitem.uid)
+	  else
+	   doPlayerAddItem(cid, moveitem.itemid,1)
+	   doRemoveItem(moveitem.uid)
+ 
+  	  end
+else
+   if getGlobalStorageValue(1222) < 0 then
+ 
+	     doTeleportThing(moveitem.uid,c.ballpos)
+	else
+	      if tileitem.actionid == 7070 then
+	             if getGlobalStorageValue(1222) >= c.original/2 then -- blue goal
+                      if getPlayerStorageValue(cid,c.storage) > 0 then      
+	                         doTeleportThing(moveitem.uid,c.ballpos,false)
+		                     addEvent(doSendAnimatedText,20,c.ballpos,getPlayerStorageValue(cid,c.storage) > c.players and "Goal!" or "Own goal!",getPlayerStorageValue(cid,c.storage) > c.players and TEXTCOLOR_LIGHTBLUE or TEXTCOLOR_RED)
+				             setGlobalStorageValue( c.RED_SCORE, getGlobalStorageValue(c.RED_SCORE) +1)
+                                     if getPlayerStorageValue(cid,c.storage) > c.players then
+									              addGoal(cid)
+									 end
+		                             for _,tid in ipairs(getPlayersOnline()) do
+					                      if getPlayerStorageValue(tid,c.storage) > 0 then
+		                                       doTeleportThing(tid,c.destination[getPlayerStorageValue(tid,c.storage)])
+                                                    for i = 1, #c.destination do
+		                                                   doSendMagicEffect(c.destination[i],10)
+		                                            end
+		                                  end    
+		                             end
+                      end
+	             elseif getGlobalStorageValue(1222) < c.original/2 then -- red goal
+	                  if getPlayerStorageValue(cid,c.storage) > 0 then      
+	                       doTeleportThing(moveitem.uid,c.ballpos,false)
+		                   addEvent(doSendAnimatedText,20,c.ballpos,getPlayerStorageValue(cid,c.storage) <= c.players and "Goal!" or "Own goal!",getPlayerStorageValue(cid,c.storage) <= c.players and TEXTCOLOR_LIGHTBLUE or TEXTCOLOR_RED)
+				           setGlobalStorageValue( c.BLUE_SCORE, getGlobalStorageValue(c.BLUE_SCORE) +1)
+                                     if getPlayerStorageValue(cid,c.storage) <= c.players then
+									              addGoal(cid)
+									 end
+		                             for _,tid in ipairs(getPlayersOnline()) do
+ 
+					                      if getPlayerStorageValue(tid,c.storage) > 0 then
+		                                       doTeleportThing(tid, (getPlayerStorageValue(tid,c.storage) <= c.players and c.destination[getPlayerStorageValue(tid,c.storage)+c.players] or c.destination[getPlayerStorageValue(tid,c.storage)-c.players]))
+                                                    for i = 1, #c.destination do
+		                                                   doSendMagicEffect(c.destination[i],10)
+		                                            end
+		                                  end    
+		                             end
+                     end
+	             end
+          elseif tileitem.actionid == 7071 then	
+                if getGlobalStorageValue(1222) >= c.original/ 2 then --red goal
+                    if getPlayerStorageValue(cid,c.storage) > 0 then      
+	                      doTeleportThing(moveitem.uid,c.ballpos,false)
+		                  addEvent(doSendAnimatedText,20,c.ballpos,getPlayerStorageValue(cid,c.storage) <= c.players and "Goal!" or "Own goal!",getPlayerStorageValue(cid,c.storage) <= c.players and TEXTCOLOR_LIGHTBLUE or TEXTCOLOR_RED)
+				          setGlobalStorageValue( c.BLUE_SCORE, getGlobalStorageValue(c.BLUE_SCORE) +1)
+                                    if getPlayerStorageValue(cid,c.storage) <= c.players then
+									              addGoal(cid)
+									end
+		                            for _,tid in ipairs(getPlayersOnline()) do
+					                     if getPlayerStorageValue(tid,c.storage) > 0 then
+		                                      doTeleportThing(tid,c.destination[getPlayerStorageValue(tid,c.storage)])
+                                                    for i = 1, #c.destination do
+		                                                   doSendMagicEffect(c.destination[i],10)
+		                                            end
+		                                 end    
+		                            end
+                    end
+	            elseif getGlobalStorageValue(1222) < c.original / 2 then --blue
+	                if getPlayerStorageValue(cid,c.storage) > 0 then      
+	                      doTeleportThing(moveitem.uid,c.ballpos,false)
+		                  addEvent(doSendAnimatedText,20,c.ballpos,getPlayerStorageValue(cid,c.storage) > c.players and "Goal!" or "Own goal!",getPlayerStorageValue(cid,c.storage) > c.players and TEXTCOLOR_LIGHTBLUE or TEXTCOLOR_RED)
+				          setGlobalStorageValue( c.RED_SCORE, getGlobalStorageValue(c.RED_SCORE) +1)
+						        if getPlayerStorageValue(cid,c.storage) > c.players then
+									              addGoal(cid)
+							    end
+								for _,tid in ipairs(getPlayersOnline()) do
+					                   if getPlayerStorageValue(tid,c.storage) > 0 then
+		                                      doTeleportThing(tid, (getPlayerStorageValue(tid,c.storage) <= c.players and c.destination[getPlayerStorageValue(tid,c.storage)+c.players] or c.destination[getPlayerStorageValue(tid,c.storage)-c.players]))
+                                                    for i = 1, #c.destination do
+		                                                   doSendMagicEffect(c.destination[i],10)
+		                                            end
+		                               end    
+		                        end
+                    end
+	            end	
+          end
+     end		  
+ 
+end
+ 
+return true
+end
+ 
+]]> </movevent>
+ 
+<movevent type="StepIn" actionid="7072" event="script">
+<![CDATA[
+		domodlib('tutorial_m')
+		domodlib('football-lib')
+		function onStepIn(cid, item, position, fromPosition)
+   if(getCreatureSpeed(cid) ~= speed) then 
+            doRemoveCondition(cid, CONDITION_HASTE) 
+            doChangeSpeed(cid, c.speed - getCreatureSpeed(cid)) 
+    end 
+return true
+end
+ 
+ 
+]]> </movevent>
+<globalevent name="timer" interval="1000" event="script"><![CDATA[
+		domodlib('tutorial_m')
+		domodlib('football-lib')
+function onThink(cid,interval)
+	local half = c.original/2
+	local random_item = c.rewards_id[math.random(1, #c.rewards_id)]
+	if getGlobalStorageValue(1222) >= 0 then
+		setGlobalStorageValue(1222,getGlobalStorageValue(1222) - 1)
+	else
+		setGlobalStorageValue(c.BLUE_SCORE,0)
+		setGlobalStorageValue(c.RED_SCORE,0)
+	end
+	for _,cid in ipairs(getPlayersOnline()) do
+		if getGlobalStorageValue(1222) >= 0 and getGlobalStorageValue(1222) < half then
+			if getPlayerStorageValue(cid,c.storage) > 0 then
+				doPlayerSendCancel(cid, "Time per half : "..( os.date("%M : %S",half)).."   |   Second half : "..( os.date("%M : %S",getGlobalStorageValue(1222))).."   |    Red : "..getGlobalStorageValue(c.RED_SCORE).." goals  *  Blue : "..getGlobalStorageValue(c.BLUE_SCORE).." goals")
+			end           
+		elseif getGlobalStorageValue(1222) >= half and getGlobalStorageValue(1222) <= c.original then
+			if getPlayerStorageValue(cid,c.storage) > 0 then
+				doPlayerSendCancel(cid, "Time per half : "..( os.date("%M : %S", half )).."   |   First half : "..( os.date("%M : %S",getGlobalStorageValue(1222))).."   |    Red : "..getGlobalStorageValue(c.RED_SCORE).." goals  *  Blue : "..getGlobalStorageValue(c.BLUE_SCORE).." goals")
+			end
+		end
+		if getPlayerStorageValue(cid,c.storage) > 0 then
+			if getGlobalStorageValue(1222) < 0 then
+				doChangeSpeed(cid, getSpeed(cid, getPlayerLevel(cid)) - getCreatureSpeed(cid))
+					if c.rewards == true then
+						if getGlobalStorageValue(c.RED_SCORE) > getGlobalStorageValue(c.BLUE_SCORE) then
+							if getPlayerStorageValue(cid,c.storage) > c.players then
+								doPlayerSendTextMessage(cid,25, "Your teams won the match. And recieved a ["..getItemNameById(random_item).."].")
+								doPlayerAddItem(cid,random_item,1)
+								addWin(cid)
+							elseif getPlayerStorageValue(cid,c.storage) <= c.players then
+								doPlayerSendTextMessage(cid,22,"You team have lost. No reward for you!")
+							end
+						elseif getGlobalStorageValue(c.BLUE_SCORE) > getGlobalStorageValue(c.RED_SCORE) then
+							if getPlayerStorageValue(cid,c.storage) <= c.players then
+								doPlayerAddItem(cid,random_item,1)
+								doPlayerSendTextMessage(cid,25, "Your teams won the match. And recieved a ["..getItemNameById(random_item).."].")
+								addWin(cid)
+							elseif getPlayerStorageValue(cid,c.storage) > c.players then
+									doPlayerSendTextMessage(cid,22,"You team have lost. No reward for you!")
+							end
+						else
+							doPlayerSendTextMessage(cid,22,"Neither of teams won. No rewards!")
+						end
+					end
+					doRemoveConditions(cid, FALSE)
+					doTeleportThing(cid,getTownTemplePosition(getPlayerTown(cid)))
+					doSendMagicEffect(getTownTemplePosition(getPlayerTown(cid)),10)
+					setPlayerStorageValue(cid,c.storage,-1)
+						for i = c.pitchpos.fromy, c.pitchpos.toy do
+							for j = c.pitchpos.fromx, c.pitchpos.tox do
+								local pos = {x = j, y = i, z = c.pitchpos.z}
+								local ball = getTileItemById(pos,2109).uid
+								if ball > 0 then
+									doRemoveItem(ball)
+								end
+							end
+						end
+						if getTileItemById(c.ballpos,2109).uid < 1 then
+							doCreateItem(2109,1,c.ballpos)
+						end
+ 
+			elseif getGlobalStorageValue(1222) == half then
+				doTeleportThing(cid, (getPlayerStorageValue(cid,c.storage) <= c.players and c.destination[getPlayerStorageValue(cid,c.storage)+c.players] or c.destination[getPlayerStorageValue(cid,c.storage)-c.players]))
+				doPlayerSendTextMessage(cid,22,"Refree : Second half begins.")
+					for i = 1, #c.destination do
+						doSendMagicEffect(c.destination[i],10)
+					end
+					for i = c.pitchpos.fromy, c.pitchpos.toy do
+						for j = c.pitchpos.fromx, c.pitchpos.tox do
+							local pos = {x = j, y = i, z = c.pitchpos.z}
+							local ball = getTileItemById(pos,2109).uid
+								if ball > 0 then
+									doRemoveItem(ball)
+								end
+						end
+					end
+					if getTileItemById(c.ballpos,2109).uid < 1 then
+						doCreateItem(2109,1,c.ballpos)
+					end
+			end
+		end
+    end
+return true
+end
+]]></globalevent>
+<globalevent name="tim" type="start" event="script"><![CDATA[
+		domodlib('tutorial_m')
+		domodlib('football-lib')
+		function onStartup()
+			setGlobalStorageValue(c.BLUE_SCORE,0)
+			setGlobalStorageValue(c.RED_SCORE,0)
+				for i = c.pitchpos.fromy, c.pitchpos.toy do
+					for j = c.pitchpos.fromx, c.pitchpos.tox do
+						local pos = {x = j, y = i, z = c.pitchpos.z}
+						local ball = getTileItemById(pos,2109).uid
+						if ball > 0 then
+							doRemoveItem(ball)
+						end
+					end
+				end
+				if getTileItemById(c.ballpos,2109).uid < 1 then
+					doCreateItem(2109,1,c.ballpos)
+				end
+			return true
+		end
+]]></globalevent>
+</mod>

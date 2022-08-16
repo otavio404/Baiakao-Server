@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npc name="Papai Noel" script="data/npc/scripts/papai_noel.lua" walkinterval="1500" speed="100" walkradius="2" floorchange="0">
+	<health max="100" now="100"/>
+	<look type="160" head="0" body="113" legs="94" feet="132" addons="0" mount="0"/>
+	<parameters>
+		<parameter key="message_greet" value="HO-HO-HO, |PLAYERNAME| Que bom te ver por aqui. Você gostaria de um ganhar presente?"/>
+		<parameter key="message_farewell" value="HO-HO-HO, tenha um ótimo feliz natal!"/>
+	</parameters>
+</npc>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster name="Daily Juggernaut" nameDescription="a daily juggernaut" race="blood" experience="500" speed="280" manacost="0">
+	<health now="22575" max="22575"/>
+	<look type="244" corpse="0"/>
+	<targetchange interval="5000" chance="8"/>
+	<strategy attack="100" defense="0"/>
+	<flags>
+		<flag summonable="0"/>
+		<flag attackable="1"/>
+		<flag hostile="1"/>
+		<flag illusionable="0"/>
+		<flag convinceable="0"/>
+		<flag pushable="0"/>
+		<flag canpushitems="1"/>
+		<flag canpushcreatures="1"/>
+		<flag targetdistance="1"/>
+		<flag staticattack="90"/>
+		<flag runonhealth="0"/>
+	</flags>
+	<attacks>
+		<attack name="melee" interval="3000" skill="120" attack="100"/>
+		<attack name="physical" interval="4000" chance="15" range="7" min="0" max="-400">
+			<attribute key="shootEffect" value="largerock"/>
+		</attack>
+	</attacks>
+	<defenses armor="70" defense="70">
+		<defense name="healing" interval="5000" chance="40" min="700" max="1500">
+			<attribute key="areaEffect" value="blueshimmer"/>
+		</defense>
+		<defense name="speed" interval="1000" chance="12" speedchange="480" duration="4000">
+			<attribute key="areaEffect" value="redshimmer"/>
+		</defense>
+	</defenses>
+	<elements>
+		<element physicalPercent="35"/>
+		<element firePercent="30"/>
+		<element icePercent="10"/>
+		<element earthPercent="20"/>
+		<element energyPercent="-10"/>
+		<element holyPercent="-5"/>
+	</elements>
+	<immunities>
+		<immunity paralyze="1"/>
+		<immunity invisible="1"/>
+	</immunities>
+</monster>

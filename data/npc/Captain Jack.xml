@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npc name="Captain Jack" script="data/npc/scripts/Captain Jack.lua" walkinterval="2000" floorchange="0">
+<health now="100" max="100"/>
+<look type="132" head="19" body="70" legs="95" feet="115" addons="0"/>
+                <parameters>
+					<parameter key="message_greet" value="Ola! Eu vendo passagens para {morgum}, {liberty bay}, {venom}, {skyler}, {eximus} e {new city} ou voce pode voltar para {principal}!" />
+					<parameter key="message_farewell" value="Bye." />
+					<parameter key="message_walkaway" value="Bye." />
+                </parameters>
+</npc>

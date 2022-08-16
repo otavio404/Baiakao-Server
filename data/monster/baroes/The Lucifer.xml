@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<monster name="The Lucifer" nameDescription="The Lucifer" race="blood" experience="9000200" speed="0" manacost="0">
+  <health now="12000000" max="12000000"/>  
+  <!--<look type="367" body="78" feet="48" head="39"  legs="114"  addons="3" corpse="6080"/>-->
+  <look type="12" head="20" body="30" legs="114" feet="50" corpse="5995"/>
+  <targetchange interval="5000" chance="8"/>
+  <strategy attack="100" defense="0"/>
+  <flags>
+    <flag summonable="0"/>
+    <flag attackable="1"/>
+    <flag hostile="1"/>
+    <flag illusionable="1"/>
+    <flag convinceable="0"/>
+    <flag pushable="0"/>
+    <flag canpushitems="1"/>
+    <flag canpushcreatures="1"/>
+    <flag targetdistance="1"/>
+    <flag staticattack="90"/>
+    <flag runonhealth="0"/>    
+  </flags>
+<attacks>
+<attack name="melee" interval="1000" skill="210" attack="226"/>
+<attack name="poison" interval="2000" chance="50" range="1" radius="1" target="1" min="-1115" max="-1115">
+<attribute key="areaEffect" value="poison"/>
+</attack>
+<attack name="fire" interval="2000" chance="70" range="7" radius="7" target="1" min="-1700" max="-1900">
+      <attribute key="shootEffect" value="fire"/>
+      <attribute key="areaEffect" value="firearea"/>
+    </attack>
+<attack name="death" interval="2000" chance="40" radius="9" target="0" min="-900" max="-1300">
+ <attribute key="areaEffect" value="mortarea"/>
+    </attack>
+<attack name="manadrain" interval="2000" chance="10" radius="10" target="0" min="-1500" max="-1800">
+      <attribute key="areaEffect" value="energyarea"/>
+    </attack>
+<attack name="lifedrain" interval="2000" chance="10" radius="14" target="0" min="-1000" max="-1200">
+      <attribute key="areaEffect" value="greenshimmer"/>
+    </attack>
+    <attack name="poisoncondition" interval="2000" chance="50" length="0" spread="0" min="-1000" max="-2000">
+      <attribute key="areaEffect" value="greenspark"/>
+</attack>
+</attacks>
+<defenses armor="16" defense="19"/>
+<elements>
+<element physicalPercent="1"/>
+<element holyPercent="1"/>
+<element deathPercent="10"/>
+<element firePercent="-1"/>
+<element energyPercent="-1"/>
+<element icePercent="15"/>
+<element earthPercent="1"/>
+</elements>
+<immunities>
+<immunity paralyze="1"/>
+<immunity invisible="1"/>
+</immunities>
+<voices interval="5000" chance="10">
+<voice sentence="Zrp zrp!"/>
+	</voices>
+	<loot>
+		<item id="2090" countmax="1" chance1="100" chancemax="0"/>
+		<item id="2472" chance="6000"/>
+		<item id="3976" countmax="10" chance1="50000" chancemax="0"/>
+		<item id="5906" countmax="1" chance1="1000" chancemax="0"/>
+		<item id="5954" countmax="1" chance1="1000" chancemax="0"/>
+                <item id="3955" chance="100000">
+			<inside>
+				<item id="2421" chance="100000"/>
+				<item id="9971" countmax="35" chance1="10000" chancemax="0"/>
+				<item id="9971" countmax="10" chance1="100000" chancemax="0"/>
+				<item id="2144" countmax="4" chance1="100000" chancemax="0"/>
+				<item id="2462" chance="9700"/>
+				<item id="2470" chance="6500"/>
+				<item id="2520" chance="7050"/>
+				<item id="2418" chance="833"/>
+				<item id="5884" chance="4000"/>
+			</inside>
+		</item>
+	</loot>
+</monster>
